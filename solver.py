@@ -2,8 +2,6 @@ from datetime import datetime
 from point import Point
 from visualiser import visualise_zip
 
-import sys
-
 class Solver():
     def __init__(self,grid,size):
         self.size = size
@@ -18,22 +16,18 @@ class Solver():
         point = Point() if not coordinate in self.grid else self.grid[coordinate]
         next_value = left[0]
 
-        if r == 3 and c == 4 and next_value == 6 and len(moves) == 35:
-            print("stop")
-
-        # right
-        if c+1 < self.size and not point.right:
-            next_moves.append(tuple([r, c+1]))
-        # down
-        if r+1 < self.size and not point.bottom:
-            next_moves.append(tuple([r+1, c]))
         # left
         if 0 <= c-1 and not point.left:
             next_moves.append(tuple([r, c-1]))
         # up
         if 0 <= r-1 and not point.top:
             next_moves.append(tuple([r-1, c]))
-
+        # right
+        if c+1 < self.size and not point.right:
+            next_moves.append(tuple([r, c+1]))
+        # down
+        if r+1 < self.size and not point.bottom:
+            next_moves.append(tuple([r+1, c]))
 
         valid = []
         for move in next_moves:
@@ -96,34 +90,20 @@ if __name__ == "__main__":
     # else:
     #     print("failed")
 
-    # size = 3
-    # grid = {}
-    # grid[tuple([2,0])] = Point(1)
-    # grid[tuple([0,2])] = Point(2)
-    # grid[tuple([1,1])] = Point(top=True, bottom=True)
+    size = 3
+    grid = {}
+    grid[tuple([2,0])] = Point(1)
+    grid[tuple([0,2])] = Point(2)
+    grid[tuple([1,1])] = Point(top=True, bottom=True)
 
-    # solver = Solver(grid, size)
-    # print("input")
-    # print(solver.grid, solver.size, end="\n\n")
-    # solution = solver.solve()
-    # print("solution")
-    # print(solution, end="\n\n")
-
-    # solved_at = datetime.strftime(datetime.now(), "%Y-%m-%d-%H:%M:%S.%f")
-    # visualise_zip(grid, size, solution, f"{solved_at}")
-
-    size = 6
-    grid = {
-        (0,1): Point(3),
-        (1,1): Point(2, bottom=True),
-        (2,1): Point(top=True),
-        (1,4): Point(5),
-        (3,4): Point(bottom=True),
-        (4,1): Point(1),
-        (4,4): Point(6, top=True),
-        (5,4): Point(4),
-    }
     solver = Solver(grid, size)
+    print("input")
+    print(solver.grid, solver.size, end="\n\n")
     solution = solver.solve()
+    print("solution")
+    print(solution, end="\n\n")
+
     solved_at = datetime.strftime(datetime.now(), "%Y-%m-%d-%H:%M:%S.%f")
     visualise_zip(grid, size, solution, f"{solved_at}")
+
+  

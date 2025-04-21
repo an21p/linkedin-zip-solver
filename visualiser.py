@@ -5,7 +5,7 @@ def grid_dict_to_list(grid, size):
     # return [[Point() if not tuple([r,c]) in grid else grid[tuple([r,c])] for r in range(size)] for c in range(size)]
     return [tuple([r,c]) for r in range(size) for c in range(size)]
 
-def visualise_zip(grid, size, solution, path, solved=True):
+def visualise_zip(grid, size, solution, path, solved=True, show=False):
     # --- drawing setup ----------------------------------------------
 
     cell_px = 50
@@ -68,7 +68,7 @@ def visualise_zip(grid, size, solution, path, solved=True):
 
     # --- show or save -----------------------------------------------
 
-    img.show()
+    if show: img.show()
     img.save(f"./data/{path}.png")  # or save to disk
 
 
