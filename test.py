@@ -94,12 +94,56 @@ class TestSolver(unittest.TestCase):
         }
 
         grid_list = grid_dict_to_list(grid, size)
-        visualise_zip(grid, size, grid_list, "2025_04_21_grid", False)
+        visualise_zip(grid, size, grid_list, "2025_04_21_open_grid", False)
 
         solver = Solver(grid, size)
         solution = solver.solve()
         print(solution)
-        visualise_zip(grid, size, solution, "2025_04_21")
+        visualise_zip(grid, size, solution, "2025_04_21_open")
+
+    def test_can_solve_grid_sample(self):
+        size = 6
+        grid = {
+            (0,0): Point(1),
+            (1,4): Point(4),
+            (2,1): Point(10),
+            (2,3): Point(3),
+            (2,5): Point(9),
+            (3,0): Point(2),
+            (4,1): Point(6),
+            (4,3): Point(5),
+            (5,2): Point(7),
+            (5,4): Point(8),
+        }
+        grid_list = grid_dict_to_list(grid, size)
+        visualise_zip(grid, size, grid_list, "2025_04_21_sample_grid", False)
+
+        solver = Solver(grid, size)
+        solution = solver.solve()
+        # print(solution)
+        visualise_zip(grid, size, solution, "2025_04_21_sample_solution")
+
+
+    def test_can_solve_grid_2025_04_21_step(self):
+        size = 6
+        grid = {
+            (0,1): Point(3),
+            (1,1): Point(2, bottom=True),
+            (2,1): Point(top=True),
+            (1,4): Point(5),
+            (3,4): Point(bottom=True),
+            (4,1): Point(1),
+            (4,4): Point(6, top=True),
+            (5,4): Point(4),
+        }
+
+        grid_list = grid_dict_to_list(grid, size)
+        visualise_zip(grid, size, grid_list, "2025_04_21_step_grid", False)
+
+        solver = Solver(grid, size)
+        solution = solver.solve()
+        print(solution)
+        visualise_zip(grid, size, solution, "2025_04_21_step_solution")
 
 
     def test_can_solve_grid_2025_04_21(self):
