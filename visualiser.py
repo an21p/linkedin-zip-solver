@@ -1,0 +1,85 @@
+from PIL import Image, ImageDraw, ImageFont
+from point import Point
+
+def grid_dict_to_list(grid, size):
+    # return [[Point() if not tuple([r,c]) in grid else grid[tuple([r,c])] for r in range(size)] for c in range(size)]
+    return [tuple([r,c]) for r in range(size) for c in range(size)]
+
+def visualise_zip(grid, size, solution, path, solved=True):
+    # --- drawing setup ----------------------------------------------
+
+    cell_px = 50
+    img_px = size * cell_px
+    img = Image.new("RGB", (img_px, img_px), "white")
+    draw = ImageDraw.Draw(img)
+    font = ImageFont.load_default(24)
+
+    # --- draw cell borders ------------------------------------------
+
+    for (y,x), pt in grid.items():
+        px, py = x*cell_px, y*cell_px
+        w = 4  # border line width
+        if pt.left:
+            draw.line([(px, py), (px, py+cell_px)], fill="black", width=w)
+        if pt.top:
+            draw.line([(px, py), (px+cell_px, py)], fill="black", width=w)
+        if pt.right:
+            draw.line([(px+cell_px, py), (px+cell_px, py+cell_px)], fill="black", width=w)
+        if pt.bottom:
+            draw.line([(px, py+cell_px), (px+cell_px, py+cell_px)], fill="black", width=w)
+
+    # --- draw all grid lines (light) --------------------------------
+
+    for i in range(size+1):
+        # verticals
+        draw.line([(i*cell_px, 0), (i*cell_px, img_px)], fill="#ddd")
+        # horizontals
+        draw.line([(0, i*cell_px), (img_px, i*cell_px)], fill="#ddd")
+
+
+    # --- draw the path ------------------------------------------------
+
+    # convert grid coords to pixel centers
+    pix_centers = [((x+0.5)*cell_px, (y+0.5)*cell_px) for y,x in solution]
+    if solved: draw.line(pix_centers, fill="red", width=6, joint="curve")
+
+    # --- draw cell values -------------------------------------------
+    r = 16
+    # mark start/end
+    x0,y0 = pix_centers[0]
+    xn,yn = pix_centers[-1]
+    for (y,x), pt in grid.items():
+        if pt.value is not None:
+            text = str(pt.value)
+            # compute text width/height via textbbox
+            bbox = draw.textbbox((0, 0), text, font=font)
+            w = bbox[2] - bbox[0]
+            h = bbox[3] - bbox[1]
+            cx = x*cell_px + (cell_px - w)/2
+            cy = y*cell_px + (cell_px - h)/2
+            xi, yi = (x+0.5)*cell_px, (y+0.5)*cell_px
+            fill = "black"
+            if x0 == xi and y0 == yi:
+                fill = "green"
+            elif xn == xi and yn == yi:
+                fill = "blue"
+            draw.ellipse((xi-r, yi-r, xi+r, yi+r), fill=fill)
+            draw.text((cx, cy-8), text, fill="white", font=font)
+
+    # --- show or save -----------------------------------------------
+
+    img.show()
+    img.save(f"./data/{path}.png")  # or save to disk
+
+
+if __name__ == "__main__":
+    size = 3
+    solution = [(2,0), (2,1), (2,2), (1,2), (1,1), (1,0), (0,0), (0,1), (0,2)]
+    grid = {
+        (0,1): Point(bottom=True),
+        (0,2): Point(value=2),
+        (1,1): Point(top=True, bottom=True),
+        (2,0): Point(value=1),
+        (2,1): Point(top=True),
+    }
+    visualise_zip(grid, size, solution, "solution")
