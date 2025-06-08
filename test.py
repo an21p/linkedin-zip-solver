@@ -153,3 +153,35 @@ class TestSolver(unittest.TestCase):
         visualise_zip(grid, size, solution, "2025_04_21_full_solution")
         assert solution == [(4, 1), (3, 1), (2, 1), (2, 2), (2, 3), (1, 3), (0, 3), (0, 2), (1, 2), (1, 1), (0, 1), (0, 0), (1, 0), (2, 0), (3, 0), (4, 0), (5, 0), (5, 1), (5, 2), (5, 3), (5, 4), (5, 5), (4, 5), (3, 5), (2, 5), (1, 5), (0, 5), (0, 4), (1, 4), (2, 4), (3, 4), (3, 3), (3, 2), (4, 2), (4, 3), (4, 4)]
 
+
+    def test_can_solve_grid_2025_0_full(self):
+        size = 8
+        grid = {
+            (0,2): Point(8),
+            (0,5): Point(9),
+            (1,2): Point(18),
+            (1,5): Point(17),
+            (2,0): Point(6),
+            (2,1): Point(7),
+            (2,2): Point(19),
+            (2,5): Point(20),
+            (2,6): Point(16),
+            (2,7): Point(10),
+            (5,0): Point(5),
+            (5,1): Point(2),
+            (5,2): Point(13),
+            (5,5): Point(1),
+            (5,6): Point(15),
+            (5,7): Point(11),
+            (6,2): Point(3),
+            (6,5): Point(14),
+            (7,2): Point(4),
+            (7,5): Point(12),
+        }
+
+        grid_list = grid_dict_to_list(grid, size)
+        visualise_zip(grid, size, grid_list, "2025_06_26_full_grid", False)
+
+        solver = Solver(grid, size)
+        solution = solver.solve()
+        visualise_zip(grid, size, solution, "2025_06_26_full_solution")

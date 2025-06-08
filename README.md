@@ -25,3 +25,10 @@
 <img src="./data/2025_04_21_sample_grid.png" alt="example_4_input" height="300"/>
 <img src="./data/2025_04_21_sample_solution.png" alt="example_4_output" height="300"/>
 </p>
+
+
+```bash
+python -m unittest
+python -m unittest test.TestSolver.test_can_solve_grid_2025_0_full
+
+```

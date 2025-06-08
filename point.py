@@ -1,11 +1,15 @@
-class Point():
-    def __init__(self, value = None, left=False, top=False, right=False, bottom=False):
-        self.value = value
-        self.left = left
-        self.top = top
-        self.right = right
-        self.bottom = bottom
-    def __repr__(self):
+from dataclasses import dataclass, field
+from typing import Optional
+
+@dataclass
+class Point:
+    value: Optional[int] = None
+    left: bool = False
+    top: bool = False
+    right: bool = False
+    bottom: bool = False
+
+    def __repr__(self) -> str:
         borders = ""
         if self.left:
             borders += "L"
@@ -15,5 +19,4 @@ class Point():
             borders += "R"
         if self.bottom:
             borders += "B"
-
         return f"Point({self.value} [{borders}])"
