@@ -1,17 +1,17 @@
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Tuple
 from PIL import Image, ImageDraw, ImageFont
 from point import Point
 
 
-def grid_dict_to_list(grid: Dict[tuple, Point], size: int) -> list[tuple]:
+def grid_dict_to_list(grid: Dict[Tuple[int, int], Point], size: int) -> List[Tuple[int, int]]:
     # return [[Point() if not tuple([r,c]) in grid else grid[tuple([r,c])] for r in range(size)] for c in range(size)]
-    return [tuple([r, c]) for r in range(size) for c in range(size)]
+    return [(r, c) for r in range(size) for c in range(size)]
 
 
 def visualise_zip(
-    grid: Dict[tuple, Point],
+    grid: Dict[Tuple[int, int], Point],
     size: int,
-    solution: List[tuple],
+    solution: List[Tuple[int, int]],
     path: str,
     solved: bool = True,
     show: bool = False,
@@ -57,7 +57,7 @@ def visualise_zip(
     # --- draw the path ------------------------------------------------
 
     # convert grid coords to pixel centers
-    pix_centers: List[tuple] = [
+    pix_centers: List[Tuple[float, float]] = [
         ((x + 0.5) * cell_px, (y + 0.5) * cell_px) for y, x in solution
     ]
     if solved:
@@ -96,7 +96,7 @@ def visualise_zip(
 
 if __name__ == "__main__":
     size: int = 3
-    solution: List[tuple] = [
+    solution: List[Tuple[int, int]] = [
         (2, 0),
         (2, 1),
         (2, 2),
@@ -107,7 +107,7 @@ if __name__ == "__main__":
         (0, 1),
         (0, 2),
     ]
-    grid: Dict[tuple, Point] = {
+    grid: Dict[Tuple[int, int], Point] = {
         (0, 1): Point(bottom=True),
         (0, 2): Point(value=2),
         (1, 1): Point(top=True, bottom=True),

@@ -30,5 +30,8 @@
 ```bash
 python -m unittest
 python -m unittest test.TestSolver.test_can_solve_grid_2025_0_full
-
+python -m http.server 8000
 ```
+
+## TODO
+link up grid editor to solver api (azure function)
