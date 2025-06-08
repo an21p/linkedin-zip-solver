@@ -161,16 +161,37 @@
           cell.dataset.col = c;
 
           // Borders
-          ['top', 'right', 'bottom', 'left'].forEach(dir => {
+            ['top', 'right', 'bottom', 'left'].forEach(dir => {
+            // Determine if the border should be shown either by the current cell or its neighbor.
+            let effective = cellData.borders[dir];
+            let neighborKey;
+            if (!effective) {
+              if (dir === 'left' && c > 0) {
+              neighborKey = `${r},${c-1}`;
+              if (gridData[neighborKey] && gridData[neighborKey].borders.right) effective = true;
+              }
+              if (dir === 'top' && r > 0) {
+              neighborKey = `${r-1},${c}`;
+              if (gridData[neighborKey] && gridData[neighborKey].borders.bottom) effective = true;
+              }
+              if (dir === 'right' && c < GRID_SIZE - 1) {
+              neighborKey = `${r},${c+1}`;
+              if (gridData[neighborKey] && gridData[neighborKey].borders.left) effective = true;
+              }
+              if (dir === 'bottom' && r < GRID_SIZE - 1) {
+              neighborKey = `${r+1},${c}`;
+              if (gridData[neighborKey] && gridData[neighborKey].borders.top) effective = true;
+              }
+            }
             const border = document.createElement('div');
-            border.className = `border ${dir} ${cellData.borders[dir] ? '' : 'off'}`;
+            border.className = `border ${dir} ${effective ? '' : 'off'}`;
             border.onclick = (e) => {
               e.stopPropagation();
               cellData.borders[dir] = !cellData.borders[dir];
               renderGrid();
             };
             cell.appendChild(border);
-          });
+            });
 
           // Number display
           if (cellData.value) {
