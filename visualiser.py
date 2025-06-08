@@ -22,7 +22,7 @@ def visualise_zip(
     img_px: int = size * cell_px
     img: Image.Image = Image.new("RGB", (img_px, img_px), "white")
     draw: ImageDraw.ImageDraw = ImageDraw.Draw(img)
-    font: Any = ImageFont.load_default()
+    font: Any = ImageFont.load_default(24)
 
     # --- draw cell borders ------------------------------------------
 
@@ -57,7 +57,7 @@ def visualise_zip(
     # --- draw the path ------------------------------------------------
 
     # convert grid coords to pixel centers
-    pix_centers: List[Tuple[float, float]] = [
+    pix_centers: List[tuple] = [
         ((x + 0.5) * cell_px, (y + 0.5) * cell_px) for y, x in solution
     ]
     if solved:
